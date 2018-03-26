@@ -1,0 +1,865 @@
+MIDASOLUTIONS-MIB DEFINITIONS ::= BEGIN
+IMPORTS
+    OBJECT-TYPE, MODULE-IDENTITY,
+    Integer32, enterprises, Counter32
+        FROM SNMPv2-SMI
+	DisplayString,RowStatus
+	FROM SNMPv2-TC
+	
+	OBJECT-GROUP
+	FROM SNMPv2-CONF;
+ 
+midasolutions MODULE-IDENTITY
+    LAST-UPDATED "201403270000Z"
+    ORGANIZATION "Mida Solutions srl"
+    CONTACT-INFO    
+	"site:	www.midasolutions.com
+	postal: Camin, Padova
+			via Vigonovese 115,
+			35127
+	email:  info@midasolutions.com
+        "
+    DESCRIPTION
+	"MIB for Mida applications monitoring"
+    REVISION	 "201403270000Z"
+    DESCRIPTION ""
+	::= {enterprises 45506}
+
+
+midaApplications OBJECT IDENTIFIER ::= { midasolutions 1 }
+
+midaPlatform OBJECT IDENTIFIER ::= { midaApplications 1 }
+
+midaApplicationServerStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Application Server status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 1 }
+	
+midaControlPanelServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida control panel service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 2 }
+
+midaGWControlPanelServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Gateway control panel service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 3 }	
+	
+midaSIPServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "SIP Service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 4 }
+
+midaCTIManagerServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida CTIManager service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 5 }
+	
+midaSambaServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Samba service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 6 }	   
+	
+midaGlusterServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Gluster service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 7 }
+
+midaBucardoServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Bucardo service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 8 }
+	
+midaFTPServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "FTP service status. Values: Running, Not running, Disabled"
+    ::= { midaPlatform 9 }
+
+midaDatabaseConnectionStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+		normal(1),
+		critical(3),
+		disabled(4)
+	}
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"Database connection status"
+    ::= { midaPlatform 10 } 
+	
+midaBilling OBJECT IDENTIFIER ::= { midaApplications 2 }
+
+midaBillingServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Billing service status. Values: Running, Not running, Disabled"
+    ::= { midaBilling 1 }
+
+midaBillingLastCDRProcessed OBJECT-TYPE
+	SYNTAX	DisplayString (SIZE (0..20))
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"Mida Billing last CDR processed datetime. Values: 'disabled' or last CDR processed datetime"
+    ::= { midaBilling 2 }
+	
+midaFaxServer OBJECT IDENTIFIER ::= { midaApplications 3 }
+
+midaFaxServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "MidaFax service status. Values: Running, Not running, Disabled"
+    ::= { midaFaxServer 1 }
+	
+midaFaxNotificationServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "MidaFax Notification service status. Values: Running, Not running, Disabled"
+    ::= { midaFaxServer 2 }		 
+
+midaFaxSendingReceiving OBJECT-TYPE
+	SYNTAX	DisplayString (SIZE (0..8))
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"MidaFax number of sending and receiving faxes. Values: 'Disabled' or integer/integer; eg. 2/3 string means that there are 2 sending and 3 receiving faxes"
+    ::= { midaFaxServer 3 }
+
+midaFaxFaxQueued OBJECT-TYPE
+	SYNTAX	Counter32
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"MidaFax number of queued faxes. Values: integer; eg. '7' means that there are 7 faxes on sending queue"
+    ::= { midaFaxServer 4 } 	
+
+midaFaxMail2FaxStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+		normal(1),
+		warning(2),
+		critical(3),
+		disabled(4)
+		}
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Mail2Fax application status. Values: Normal, Warning, Critical, Disabled; e.g. Critical means that max time of scheduled download overflowed"
+    ::= { midaFaxServer 5 }
+
+midaFaxChannelStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+		normal(1),
+		warning(2),
+		critical(3),
+		disabled(4)
+		}
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "MidaFax Channels status. Values: Normal, Warning, Critical, Disabled; e.g. Warning: more than 50% of channels are blocked - Critical: more than 90% of channels are blocked"
+    ::= { midaFaxServer 6 }	
+	
+midaFaxChannelTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF MidaFaxChannelTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+		"Mida Fax channels status table"
+    ::= { midaFaxServer 7 }
+ 
+midaFaxChannelTableEntry OBJECT-TYPE
+    SYNTAX     MidaFaxChannelTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Mida Fax channels status table entry"
+    INDEX { midaFaxChannelTableChannelIndex }
+    ::= { midaFaxChannelTable 1 }
+ 
+MidaFaxChannelTableEntry ::= SEQUENCE {
+    midaFaxChannelTableChannelIndex		Integer32,
+    midaFaxChannelTableChannelStatus	DisplayString,
+	midaFaxChannelTableRowStatus 		RowStatus
+}
+
+midaFaxChannelTableChannelIndex OBJECT-TYPE
+    SYNTAX      Integer32 (1..3)
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+		"MidaFax: Channel index"
+    ::= { midaFaxChannelTableEntry 1 }
+ 
+midaFaxChannelTableChannelStatus    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"MidaFax: Channel status" 
+	::= { midaFaxChannelTableEntry 2 }
+
+midaFaxChannelTableRowStatus  OBJECT-TYPE 
+   SYNTAX RowStatus 
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "" 
+   ::= { midaFaxChannelTableEntry 3 }
+  
+midaImportManager OBJECT IDENTIFIER ::= { midaApplications 4 }
+
+midaImportManagerServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Mida Import Manager service status. Values: Running, Not running, Disabled"
+    ::= { midaImportManager 1 }
+
+midaImportManagerTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF MidaImportManagerTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Mida Import Manager collectors information table"
+    ::= { midaImportManager 2 }
+ 
+midaImportManagerTableEntry OBJECT-TYPE
+    SYNTAX     MidaImportManagerTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Mida Import Manager collectors table entry"
+    INDEX { midaImportManagerTableType }
+    ::= { midaImportManagerTable 1 }
+ 
+MidaImportManagerTableEntry ::= SEQUENCE {
+    midaImportManagerTableType			Integer32,
+    midaImportManagerTableLastImport	DisplayString,
+	midaImportManagerTableRowStatus 	RowStatus
+}
+
+midaImportManagerTableType OBJECT-TYPE
+	SYNTAX INTEGER {
+		unknown(0),
+		web(1),
+		csv(2),
+		axl(4),
+		odbc(8),
+		ldap(16),
+		custom(32),
+		ucxsi(64)
+	}		
+		
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+		"Mida Import Manager: collector source type. Values: unknown(0),web(1),csv(2),axl(4),odbc(8),ldap(16),custom(32),ucxsi(64)"
+    ::= { midaImportManagerTableEntry 1 }
+ 
+midaImportManagerTableLastImport    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Mida Import Manager: collector last import datetime" 
+	::= { midaImportManagerTableEntry 2 }
+
+midaImportManagerTableRowStatus  OBJECT-TYPE 
+   SYNTAX RowStatus 
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "" 
+   ::= { midaImportManagerTableEntry 3 }
+	
+midaRecorder OBJECT IDENTIFIER ::= { midaApplications 5 }
+
+midaRecorderSnifferServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Mida Recorder Sniffer service status. Values: Running, Not running, Disabled"
+    ::= { midaRecorder 1 }	
+	
+midaVoipRecorderServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Voip Recorder service status. Values: Running, Not running, Disabled"
+    ::= { midaRecorder 2 }	
+
+midaRecorderCollectorsTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF MidaRecorderCollectorsTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Recorder collectors information table"
+    ::= { midaRecorder 3 }
+ 
+midaRecorderCollectorsTableEntry OBJECT-TYPE
+    SYNTAX     MidaRecorderCollectorsTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Recorder Collectors table entry"
+    INDEX { midaRecorderCollectorsTableIndex }
+    ::= { midaRecorderCollectorsTable 1 }
+ 
+MidaRecorderCollectorsTableEntry ::= SEQUENCE {
+    midaRecorderCollectorsTableIndex			Integer32,
+    midaRecorderCollectorsTableChannelSource	DisplayString,
+	midaRecorderCollectorsTableIPAddress		DisplayString,
+	midaRecorderCollectorsTableDownloaded		Integer32,
+	midaRecorderCollectorsTableStatus			Integer32,
+	midaRecorderCollectorsTableLastRun			DisplayString,
+	midaRecorderCollectorsTableRowStatus 		RowStatus
+}
+
+midaRecorderCollectorsTableIndex OBJECT-TYPE
+    SYNTAX      Integer32 (1..3)
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+		"Recorder Collector index"
+    ::= { midaRecorderCollectorsTableEntry 1 }
+ 
+midaRecorderCollectorsTableChannelSource    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Recorder Collector channel source" 
+	::= { midaRecorderCollectorsTableEntry 2 }
+
+midaRecorderCollectorsTableIPAddress    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Recorder Collector IP address" 
+	::= { midaRecorderCollectorsTableEntry 3 }
+
+midaRecorderCollectorsTableDownloaded    OBJECT-TYPE 
+	SYNTAX      Integer32
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Recorder Collector number of recordings in last dowload" 
+	::= { midaRecorderCollectorsTableEntry 4 }
+	
+midaRecorderCollectorsTableStatus    OBJECT-TYPE 
+	SYNTAX INTEGER {
+		unknown(-1),
+		success(0),
+		failureexceptionoccurred(1),
+		failurelicense(2),
+		failuregeneralerror(3),
+		failureinvalidipaddress(4),
+		failureduringcdrdbwriting(5),
+		failureduringfilescompression(6),
+		failureduringfilesencryption(7),
+		failuretimeoutexception(8),
+		mgfailurenotmountedshare(10),
+		mgfailurebeforefilescopying(11),
+		mgfailureduringfilescopying(12),
+		mgfailurebeforecdranalyzing(13),
+		mgfailureduringcdranalyzing(14),
+		mgfailureduringaudiofilesanalyzing(15),
+		mgfailurelogin(20),
+		mgfailureservertime(21),
+		mgfailuresessionsprocesscode(22),
+		mgfailuresessionsprocess(23),
+		mgfailurelogout(24),
+		mgsuccessreqcompleted(2000),
+		mgsuccessnoresultfound(2001),
+		mgfailurecredentialsareinvalid(4020),
+		mgfailurerequestparametermissing(4055),
+		mgfailureunknownaxlservice(5024)
+	}
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		" Recorder Collector status" 
+	::= { midaRecorderCollectorsTableEntry 5 }
+	
+midaRecorderCollectorsTableLastRun    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Recorder Collector last execution datetime" 
+	::= { midaRecorderCollectorsTableEntry 6 }
+	
+midaRecorderCollectorsTableRowStatus  OBJECT-TYPE 
+   SYNTAX RowStatus 
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "" 
+   ::= { midaRecorderCollectorsTableEntry 7 }
+
+midaTDMPortTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF MidaTDMPortTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "TDM port table status"
+    ::= { midaRecorder 4 }
+ 
+midaTDMPortTableEntry OBJECT-TYPE
+    SYNTAX     MidaTDMPortTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "TDM port status"
+    INDEX { midaTDMPortTableIndex }
+    ::= { midaTDMPortTable 1 }
+ 
+
+MidaTDMPortTableEntry ::= SEQUENCE {
+    midaTDMPortTableIndex  		Integer32,
+    midaTDMBoardName   			DisplayString,
+    midaTDMBoardLogicalIndex 	Integer32,
+    midaTDMSpanIndex   			Integer32,
+    midaTDMSpanStatus   		INTEGER,
+    midaTDMSpanClockSource  	INTEGER,
+    midaTDMSpanTapMode   		INTEGER,
+    midaTDMPortTableRowStatus  	RowStatus
+}
+
+midaTDMPortTableIndex OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Port index"
+    ::= { midaTDMPortTableEntry 1 }
+
+midaTDMBoardName    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"TDMBoard name" 
+	::= { midaTDMPortTableEntry 2 }
+	
+midaTDMBoardLogicalIndex OBJECT-TYPE
+    SYNTAX      Integer32 
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Board index"
+    ::= { midaTDMPortTableEntry 3 }
+
+midaTDMSpanIndex OBJECT-TYPE
+    SYNTAX      Integer32 
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Span index"
+    ::= { midaTDMPortTableEntry 4 }	
+	
+midaTDMSpanStatus OBJECT-TYPE 
+	SYNTAX INTEGER{
+		green(1),
+		yellow(2),
+		red(3),
+		blue(4),
+		other(5),
+		na(6)
+		}
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "Span status" 
+   ::= { midaTDMPortTableEntry 5 }
+   
+midaTDMSpanClockSource OBJECT-TYPE 
+	SYNTAX INTEGER{
+		nt(1),
+		te(2)		
+		}
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "Span clock source" 
+   ::= { midaTDMPortTableEntry 6 }
+
+midaTDMSpanTapMode OBJECT-TYPE 
+	SYNTAX INTEGER{
+		hiz(1),
+		extz(2),
+		none(3)
+		}
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "Span tap mode" 
+   ::= { midaTDMPortTableEntry 7 }
+   
+midaTDMPortTableRowStatus  OBJECT-TYPE 
+   SYNTAX RowStatus 
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "" 
+   ::= { midaTDMPortTableEntry 8 }  
+   
+midaEMBoardPortTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF MidaEMBoardPortTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Recorder EMBoard port status table"
+    ::= { midaRecorder 5 }
+ 
+midaEMBoardPortTableEntry OBJECT-TYPE
+    SYNTAX     MidaEMBoardPortTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Recorder EMBoard port table entry"
+    INDEX { midaEMBoardTableIndex }
+    ::= { midaEMBoardPortTable 1 }
+ 
+MidaEMBoardPortTableEntry ::= SEQUENCE {
+	midaEMBoardTableIndex		Integer32,
+    midaEMBoardName				DisplayString,
+    midaEMLogicalBoardIndex		Integer32,
+	midaEMSpanIndex 			Integer32,
+	midaEMChannelIndex 			Integer32,
+	midaEMBoardState			INTEGER,
+	midaEMBoardRowStatusTable 	RowStatus
+}
+
+midaEMBoardTableIndex OBJECT-TYPE
+    SYNTAX      Integer32 (1..3)
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Recorder EMBoard port table index"
+    ::= { midaEMBoardPortTableEntry 1 }
+	
+midaEMBoardName    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Recorder EMBoard board name" 
+	::= { midaEMBoardPortTableEntry 2 }
+	
+midaEMLogicalBoardIndex OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Recorder EMBoard board index"
+    ::= { midaEMBoardPortTableEntry 3 }
+
+midaEMSpanIndex OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Recorder EMBoard span index"
+    ::= { midaEMBoardPortTableEntry 4 }
+	
+midaEMChannelIndex OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Recorder EMBoard channel index"
+    ::= { midaEMBoardPortTableEntry 5 }
+	
+	
+midaEMBoardState OBJECT-TYPE 
+	SYNTAX INTEGER{
+		idle(0),
+		onhook(1),
+		onhookbusy(2),
+		ring(3),
+		fault(4),
+		initreserved(5),
+		reserved(6),
+		setupinitiated(7),
+		setup(8),
+		proceedinginitiated(9),
+		proceeding(10),
+		progressinitiated(11),
+		progress(12),
+		alertinitiated(13),
+		alert(14),
+		connectinitiated(15),
+		connect(16),
+		disconnectinitiated(17),
+		disconnect(18),
+		releaseinitiated(19)
+		}
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "Recorder EMBoard port status." 
+   ::= { midaEMBoardPortTableEntry 6 }
+
+midaEMBoardRowStatusTable  OBJECT-TYPE 
+   SYNTAX RowStatus 
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "" 
+   ::= { midaEMBoardPortTableEntry 7 }
+
+midaRecorderDiskStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+		normal(1),
+		critical(3),
+		disabled(4)
+	}
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"Recorder disk occupation. If critical status the recordings will be discarded"
+    ::= { midaRecorder 6 } 
+	
+midaRecorderBackupStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+		normal(1),
+		warning(2),
+		critical(3),
+		disabled(4)
+	}
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"Recorder backup status."
+    ::= { midaRecorder 7 } 		
+
+midaRecorderShareStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+		normal(1),
+		critical(3),
+		disabled(4)
+	}
+    MAX-ACCESS	read-write
+    STATUS	current
+    DESCRIPTION  
+	"Recorder share status."
+    ::= { midaRecorder 8 } 		
+	
+midaScheduler OBJECT IDENTIFIER ::= { midaApplications 6 }
+
+midaSchedulerServiceStatus OBJECT-TYPE
+	SYNTAX INTEGER {
+         running(1),
+		 notrunning(2),
+		 disabled(3)
+		 }
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Scheduler service status. Values: Running, Not running, Disabled"
+    ::= { midaScheduler 1 }	
+	
+midaVoiceServices OBJECT IDENTIFIER ::= { midaApplications 7 }
+
+midaVoiceServicesActiveCalls OBJECT-TYPE
+	SYNTAX	Integer32
+	MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+    "Mida Voice Services: number of active calls. Values: integer; e.g. '3' means that there are 3 active calls on voice system"
+    ::= { midaVoiceServices 1 }	
+	
+midaQMTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF MidaQMTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Mida Voice Services table"
+    ::= { midaVoiceServices 2 }
+ 
+midaQMTableEntry OBJECT-TYPE
+    SYNTAX     MidaQMTableEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+        "Mida Voice Services table entry"
+    INDEX { midaQMTableIndex }
+    ::= { midaQMTable 1 }
+ 
+MidaQMTableEntry ::= SEQUENCE {
+    midaQMTableIndex			Integer32,
+	midaQMServiceStatus			Integer32,
+    midaQMServiceName			DisplayString,
+	midaQMServiceNumber			DisplayString,
+	midaQMServiceSupervisors	Integer32,
+	midaQMServiceAgents			Integer32,
+	midaQMServiceLoggedAgents	Integer32,
+	midaQMTableRowStatus 		RowStatus
+}
+
+midaQMTableIndex OBJECT-TYPE
+    SYNTAX      Integer32 (1..3)
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Mida Voice Services - service index"
+    ::= { midaQMTableEntry 1 }
+
+midaQMServiceStatus OBJECT-TYPE
+    SYNTAX INTEGER {
+        open(1),
+		close(2)
+	}
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+            "Mida Voice Services - service status. Values: open, close; e.g. 'open' means that service is on 'in service treatment', 'close' means that service is on 'out of service treatment' "
+    ::= { midaQMTableEntry 2 }
+	
+midaQMServiceName    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Mida Voice Services - service name" 
+	::= { midaQMTableEntry 3 }
+
+midaQMServiceNumber    OBJECT-TYPE 
+	SYNTAX	DisplayString
+	MAX-ACCESS read-create
+	STATUS current 
+	DESCRIPTION 
+		"Mida Voice Services - service number" 
+	::= { midaQMTableEntry 4 }
+
+midaQMServiceSupervisors OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+		"Mida Voice Services - number of supervisors"
+    ::= { midaQMTableEntry 5 }
+
+midaQMServiceAgents OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+		"Mida Voice Services - number of agents"
+    ::= { midaQMTableEntry 6 }
+
+midaQMServiceLoggedAgents OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-create
+    STATUS      current
+    DESCRIPTION
+		"Mida Voice Services - number of logged agents"
+    ::= { midaQMTableEntry 7 }
+	
+midaQMTableRowStatus  OBJECT-TYPE 
+   SYNTAX RowStatus 
+   MAX-ACCESS read-create
+   STATUS current 
+   DESCRIPTION 
+      "" 
+   ::= { midaQMTableEntry 8 }
+   
+END
